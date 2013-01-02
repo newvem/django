@@ -59,7 +59,7 @@ def technical_500_response(request, exc_type, exc_value, tb):
     the values returned from sys.exc_info() and friends.
     """
     reporter = ExceptionReporter(request, exc_type, exc_value, tb)
-    if request.is_ajax():
+    if not settings.ALWAYS_SHOW_HTML_ERRORS and request.is_ajax():
         text = reporter.get_traceback_text()
         return HttpResponseServerError(text, mimetype='text/plain')
     else:
